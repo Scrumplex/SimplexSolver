@@ -58,3 +58,6 @@ def solve(params: SolveRequest):
 
     return {"path": rpath}
 
+@app.get("/", response_class=RedirectResponse)
+def root():
+    return "/ui/index.html"
