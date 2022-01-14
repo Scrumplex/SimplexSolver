@@ -297,8 +297,11 @@ class SimplexSolver():
                 x = ''
             func += (r"%s %sx_%s "  % (opp, str(x), str(index+1)))
             found_value = True
-        self.doc += (r"\max{%s} \\ "
-                     r"\end{equation*}" % func)
+        if self.prob == "max":
+            self.doc += (r"\max{%s} \\ " % func)
+        else:
+            self.doc += (r"\min{%s} \\ " % func)
+        self.doc += (r"\end{equation*}")
         self.linear_system_doc(self.get_Ab())
         self.doc += (r"\begin{flushleft}"
                      r"\textbf{Solution}"
