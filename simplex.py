@@ -1,9 +1,6 @@
 import ast, getopt, sys, copy, os
 from fractions import Fraction
 
-clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
-
-
 class SimplexSolver():
     ''' Solves linear programs using simplex algorithm and
         output problem steps in LaTeX file.
@@ -45,7 +42,6 @@ class SimplexSolver():
         while (not self.should_terminate()):
             # ... if so, continue.
             if(enable_msg):
-                clear()
                 self._print_tableau()
                 print(("Current solution: %s\n" %
                       str(self.get_current_solution())))
@@ -63,7 +59,6 @@ class SimplexSolver():
             else:
                 self.pivot_doc(pivot)
                 if (enable_msg):
-                    clear()
                     self._print_tableau()
                     print(("\nThere are negative elements in the bottom row, "
                           "so the current solution is not optimal. "
@@ -84,7 +79,6 @@ class SimplexSolver():
         solution = self.get_current_solution()
         self.final_solution_doc(solution)
         if (enable_msg):
-            clear()
             self._print_tableau()
             print(("Current solution: %s\n" % str(solution)))
             print("That's all folks!")
@@ -375,7 +369,7 @@ class SimplexSolver():
                 elif indexr != (len(self.tableau)-2):
                     self.doc += r"%s \\" % (str(value))
                 else:
-                    self.doc += r"%s \\ \hline" % (str(value))
+                    self.doc += r"%s \\ \hline" % (str(value))
         self.doc += r"\end{array}"
         self.doc += r"\end{bmatrix}"
         self.doc += (r"\begin{array}{c}"
@@ -487,8 +481,6 @@ class SimplexSolver():
         input("Press enter to continue...")
 
 if __name__ == '__main__':
-    clear()
-
     ''' COMMAND LINE INPUT HANDLING '''
     A = []
     b = []
