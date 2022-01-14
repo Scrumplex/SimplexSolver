@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <title>Hallo</title>
+    <style>
+         textarea {
+             width: 600px;
+         }
+
+         textarea[name="equations"] {
+             height: 10em;
+         }
+    </style>
+</head>
+<body>
+    <pre>
+Im Beispiel unten soll berechnet werden:
+Funktion: 
+  F(x1, x2) = K = 2 * x1 + 2 * x2
+
+LGS:
+      x1 + 2 * x2 >= 3
+  3 * x1 + 2 * x2 >= 5
+    </pre>
+    <form id="form" action="/solve" method="post" enctype="application/json">
+        <label for="c">Funktionskoeffizienten: </label>
+        <textarea id="c" name="c">[2, 2]</textarea>
+        <label for="p">Modus (min oder max): </label>
+        <input id="p" name="p" placeholder="min/max" value="min">
+        <br>
+        <br>
+        <label for="equations">LGS Koeffizienten: </label>
+        <textarea id="equations" name="equations">
+[
+    [1, 2, 3], 
+    [3, 2, 5]
+]</textarea>
+        <br>
+        <button name="submit" type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("form").addEventListener("submit", e => {
+            e.preventDefault();
+            let formData = new FormData(e.target);
+            for (let elem of e.target.querySelectorAll("[name]")) {
+                elem.setAttribute("disabled", "disabled");
+            }
+            let body = {
+                equations: JSON.parse(formData.get("equations")),
+                c: JSON.parse(formData.get("c")),
+                p: formData.get("p")
+            };
+            fetch("/solve", {
+                method: "POST", 
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify(body)
+            }).then(r => {
+                return r.json()
+            }).then(r => {
+                for (let elem of e.target.querySelectorAll("[name]")) {
+                    elem.removeAttribute("disabled");
+                }
+                if (r.hasOwnProperty("path"))
+                    window.open(r.path, "_blank");
+                else {
+                    throw new Error(JSON.stringify(r))
+                }
+            }).catch(err => {
+                for (let elem of e.target.querySelectorAll("[name]")) {
+                    elem.removeAttribute("disabled");
+                }
+                alert(err)
+            });
+        });
+    </script>
+</body>
+</html>
