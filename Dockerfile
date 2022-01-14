@@ -10,7 +10,7 @@ RUN pipenv install --system --deploy
 
 COPY . ./
 
-EXPOSE 8080
+EXPOSE 8000
 VOLUME /app/output
 
 ENTRYPOINT ["/usr/local/bin/uvicorn", "--host", "0.0.0.0", "main:app"]
