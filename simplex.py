@@ -248,7 +248,7 @@ class SimplexSolver():
         '''
         solution = {}
         for x in self.entering:
-            if x is not 'b':
+            if x != 'b':
                 if x in self.departing:
                     solution[x] = self.tableau[self.departing.index(x)]\
                                   [len(self.tableau[self.departing.index(x)])-1]
